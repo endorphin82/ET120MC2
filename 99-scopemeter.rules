@@ -1,0 +1,5 @@
+# TOOLTOP ET120MC2 (GD32-CDC) — VID 28E9 PID 018B
+# та ET521A / PC521 — VID 2E88 PID 4603
+# Дозволяє користувачеві з групою `uucp` доступ до /dev/ttyACM*
+SUBSYSTEM=="tty", ATTRS{idVendor}=="28e9", ATTRS{idProduct}=="018b", GROUP="uucp", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2e88", ATTRS{idProduct}=="4603", GROUP="uucp", MODE="0660", TAG+="uaccess"
