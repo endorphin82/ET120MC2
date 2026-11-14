@@ -4,7 +4,7 @@ import sys
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="ScopeMeter host for TOOLTOP ET120MC2")
-    parser.add_argument("--port", help="serial port, e.g. /dev/ttyACM0 (default: auto)")
+    parser.add_argument("--port", help="serial port, e.g. /dev/ttyACM0 or COM5 (default: auto)")
     parser.add_argument("--mock", action="store_true", help="connect to built-in virtual device")
     parser.add_argument("--list-ports", action="store_true", help="list serial ports and exit")
     parser.add_argument("--selftest", action="store_true", help="run protocol self-test without GUI")
