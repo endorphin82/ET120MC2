@@ -1,7 +1,8 @@
-# ScopeMeter для Linux
+# ScopeMeter
 
 Хост-застосунок для осцилографа **TOOLTOP ET120MC2**.
 Нативний порт Windows-програми ScopeMeter.exe (WinForms, .NET) на Python + GTK 3 + pyserial.
+Працює на Linux та Windows (MSYS2).
 
 Протокол USB CDC (115200 8N1, sync `0xA5`) відтворено з бінарника — див.
 [`docs/protocol.md`](docs/protocol.md).
@@ -55,12 +56,24 @@
 
 ## Запуск
 
+Linux:
+
 ```sh
 ./run.sh                 # авто-детект пристрою
 ./run.sh --port /dev/ttyACM0
 ./run.sh --mock          # віртуальний пристрій
 ./run.sh --selftest      # перевірка протоколу без GUI
 ./run.sh --list-ports    # список послідовних портів
+```
+
+Windows (див. нижче):
+
+```bat
+run.bat                  # авто-детект пристрою
+run.bat --port COM5
+run.bat --mock           # віртуальний пристрій
+run.bat --selftest       # перевірка протоколу без GUI
+run.bat --list-ports     # список послідовних портів
 ```
 
 Залежності: Python 3.10+, `pyserial`, `PyGObject` (GTK 3), `numpy`.
@@ -70,7 +83,58 @@ pip install -r requirements.txt
 # або з системних пакетів: python3-gi gir1.2-gtk-3.0 python3-serial python3-numpy
 ```
 
-## Доступ до порту
+## Windows
+
+GTK на Windows не ставиться через pip — найпростіший спосіб це **[MSYS2](https://www.msys2.org)**:
+
+1. Встановіть MSYS2 з <https://www.msys2.org> (шлях за замовчуванням `C:\msys64`).
+2. Відкрийте шел **MSYS2 MINGW64** та встановіть пакети:
+
+   ```sh
+   pacman -S mingw-w64-x86_64-python \
+             mingw-w64-x86_64-python-gobject \
+             mingw-w64-x86_64-python-pyserial \
+             mingw-w64-x86_64-python-numpy
+   ```
+
+3. Запускайте з шелу MSYS2:
+
+   ```sh
+   python -m scopemeter             # авто-детект пристрою
+   python -m scopemeter --port COM5
+   python -m scopemeter --mock      # віртуальний пристрій
+   python -m scopemeter --selftest  # перевірка протоколу без GUI
+   python -m scopemeter --list-ports
+   ```
+
+   Або додайте `C:\msys64\mingw64\bin` у системний `PATH` Windows і
+   запускайте `run.bat` з CMD / PowerShell.
+
+Налаштування зберігаються в `%APPDATA%\scopemeter\scope.ini`.
+
+### Доступ до порту (Windows)
+
+Правила udev не потрібні: Windows сама завантажує вбудований драйвер
+`usbser.sys` для USB CDC-пристрою і створює COM-порт автоматично.
+
+Перевірити:
+
+```bat
+run.bat --list-ports     # має показати пристрій із VID 28e9 / PID 018b
+```
+
+або знайти пристрій у **Диспетчері пристроїв → Порти (COM і LPT)**.
+
+Якщо COM-порт не з'явився:
+
+- від'єднайте та підключіть пристрій знову, натисніть кнопку оновлення
+  у заголовку вікна;
+- у Диспетчері пристроїв виберіть невідомий пристрій → *Оновити драйвер*
+  і дозвольте Windows шукати (пристрій є стандартним USB CDC/ACM);
+- спробуйте інший USB-кабель/порт (кабелі лише для зарядки не мають
+  дата-ліній).
+
+## Доступ до порту (Linux)
 
 Пристрій з'являється як `/dev/ttyACM0`. Правила udev:
 

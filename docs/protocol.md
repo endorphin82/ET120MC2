@@ -1,7 +1,8 @@
 # TOOLTOP ET120MC2 (ScopeMeter host) — USB CDC serial protocol
 
 Device: TOOLTOP ET120MC2 portable smart oscilloscope (+ built-in signal generator).
-USB CDC ACM → `/dev/ttyACM*` (observed VID:PID `28e9:018b` on GD32-CDC; original
+USB CDC ACM → `/dev/ttyACM*` on Linux, a `COM*` port on Windows (observed
+VID:PID `28e9:018b` on GD32-CDC; original
 ET521A-family VID:PID `2E88:4603` also supported). Link: **115200 8N1**.
 
 Reverse-engineered from `ScopeMeter.exe` v1.0 (`.NET` WinForms, class `示波器.Form1ShiBoQi`).
